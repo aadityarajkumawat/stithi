@@ -23,6 +23,9 @@ class Example extends Component {
     return <MyComponent />
   }
 }
+
+function() {
+}
 ```
 
 ## License
