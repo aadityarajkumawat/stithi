@@ -1,11 +1,11 @@
 import { createContext } from 'react'
 
-interface ContextParams<T> {
+export interface ContextParams<T> {
   initialState: T
   contextName: string
 }
 
-interface ContextInfo<T> extends ContextParams<T> {
+export interface ContextInfo<T> extends ContextParams<T> {
   context: React.Context<T>
 }
 
@@ -16,11 +16,11 @@ interface ContextInfo<T> extends ContextParams<T> {
 export const newContextInfoContainer: Array<ContextInfo<any>> = []
 
 /**
- * takes initial state to create context
+ * Takes initial state to create context
  * and name of context for unique identification
  * @param contextParams
  */
 export function createNewContext<T>(contextParams: ContextParams<T>) {
-  const newContext = createContext<T>(contextParams.initialState)
+  const newContext = createContext<T | undefined>(undefined)
   newContextInfoContainer.push({ context: newContext, ...contextParams })
 }
