@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { dispatcherOnSteroids } from './dispatcherOnSteroids'
 import { newContextInfoContainer } from './createNewContext'
 import { useStonedReducer } from './useStonedReducer'
+import { getHighContextObject } from './getHighContextObject'
 
 interface AuthStateProps {}
 
@@ -12,8 +13,7 @@ export interface AuthStateI {
 export type AuthActionType = { type: 'LOGOUT' } | { type: 'LOGIN' }
 
 export const AuthState: React.FC<AuthStateProps> = ({ children }) => {
-  const init = newContextInfoContainer[0].initialState
-
+  const { initialState, context } = getHighContextObject('auth')
   const [state, dispatch] = useStonedReducer<AuthStateI, AuthActionType>(
     (state: AuthStateI, action: any) => {
       switch (action.type) {
@@ -31,7 +31,7 @@ export const AuthState: React.FC<AuthStateProps> = ({ children }) => {
           return state
       }
     },
-    init
+    initialState
   )
 
   console.log({ state })
@@ -44,7 +44,7 @@ export const AuthState: React.FC<AuthStateProps> = ({ children }) => {
     dispatcherOnSteroids(dispatch, { type: 'LOGIN' })
   }
 
-  const AuthContext = newContextInfoContainer[0].context
+  const AuthContext = context
 
   return (
     <AuthContext.Provider
