@@ -1,11 +1,6 @@
-export interface DispatchParams {
-  type: string
-  payload?: any
-}
-
-export function dispatcherOnSteroids(
-  dispatchFunction: React.Dispatch<DispatchParams>,
-  dispatchParams: DispatchParams
+export function dispatcherOnSteroids<P = {}>(
+  dispatchFunction: React.Dispatch<P>,
+  dispatchParams: P
 ) {
   dispatchFunction(dispatchParams)
 }

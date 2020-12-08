@@ -1,22 +1,20 @@
 import React, { useReducer } from 'react'
 import { dispatcherOnSteroids } from './dispatcherOnSteroids'
-import AuthContext from './AuthContext'
+import { newContextInfoContainer } from './createNewContext'
 
 interface AuthStateProps {}
 
-interface AuthStateI {
+export interface AuthStateI {
   isAuthenticated: boolean
 }
 
 export const AuthState: React.FC<AuthStateProps> = ({ children }) => {
-  const init: AuthStateI = {
-    isAuthenticated: true
-  }
+  const init = newContextInfoContainer[0].initialState
   const [state, dispatch] = useReducer<
     Stithi.ReducerFunction<AuthStateI>,
     AuthStateI
   >(
-    (state: any, action: any) => {
+    (state: AuthStateI, action: any) => {
       switch (action.type) {
         case 'LOGOUT':
           return {
@@ -36,7 +34,7 @@ export const AuthState: React.FC<AuthStateProps> = ({ children }) => {
     (init) => init
   )
 
-  // const Provider = newContextInfoContainer[0].context.Provider
+  console.log({ state })
 
   const logout = () => {
     dispatcherOnSteroids(dispatch, { type: 'LOGOUT' })
@@ -45,6 +43,7 @@ export const AuthState: React.FC<AuthStateProps> = ({ children }) => {
   const login = () => {
     dispatcherOnSteroids(dispatch, { type: 'LOGIN' })
   }
+  const AuthContext = newContextInfoContainer[0].context
 
   return (
     <AuthContext.Provider
