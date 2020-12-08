@@ -1,17 +1,20 @@
 import React from 'react'
 import { AuthContextI, initializeContext } from './lib/appContext'
-import { AuthState, useAuth } from './lib/AuthState'
+import { useAuth } from './lib/AuthState'
+import { contextStates } from './lib/contextStates'
 
 interface Props {}
 
 initializeContext()
 
 const AuthComponent: React.FC<any> = () => {
-  const { isAuthenticated, login, logout } = useAuth<AuthContextI>()
-  console.log(isAuthenticated)
+  // const { isAuthenticated, login, logout } = useAuth<AuthContextI>()
+  // console.log(isAuthenticated)
+  console.log(contextStates)
+
   return (
     <div>
-      {isAuthenticated ? 'user-auth' : 'user-unauth'}
+      {/* {isAuthenticated ? 'user-auth' : 'user-unauth'}
       <button
         onClick={() => {
           if (isAuthenticated) {
@@ -22,16 +25,16 @@ const AuthComponent: React.FC<any> = () => {
         }}
       >
         login/logout
-      </button>
+      </button> */}
     </div>
   )
 }
 
 export const Free: React.FC<Props> = () => {
   return (
-    <AuthState>
+    <div>
       <div>Navbar</div>
       <AuthComponent />
-    </AuthState>
+    </div>
   )
 }

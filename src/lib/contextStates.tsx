@@ -1,58 +1,45 @@
-import { AuthActionType, AuthStateI } from './AuthState'
-import { newContextInfoContainer } from './createNewContext'
-import { dispatcherOnSteroids } from './dispatcherOnSteroids'
+declare var React: any
+import { useReducer } from 'react'
+import { getHighContextObject } from './getHighContextObject'
 import { useStonedReducer } from './useStonedReducer'
 
-export const contextStates: Array<React.Context<any>> = []
+export const contextStates: Array<any> = []
 
-interface CreateContextStateI {
-  children: React.ReactNode
+interface CreateContextStateI<T> {
   contextName: string
+  reducer: T
+  actions: object
 }
+/**
+ * Creates a context and adds it to an array
+ * of contexts which can be accessed in component
+ * tree of application
+ * @param param0
+ */
+export function createContextState<T, K>({
+  contextName,
+  reducer,
+  actions
+}: CreateContextStateI<Stithi.ReducerFunction<T, K>>) {
+  const NewContextState: React.FC<any> = ({ children }) => {
+    const { initialState, context } = getHighContextObject(contextName)
+    const [state] = useReducer<Stithi.ReducerFunction<any, any>, any>(
+      reducer,
+      initialState,
+      (initialState) => initialState
+    )
+    const NewContext = context
+    return (
+      <NewContext.Provider
+        value={{
+          ...state,
+          ...actions
+        }}
+      >
+        {children}
+      </NewContext.Provider>
+    )
+  }
 
-export function createContextState<T>({
-  children,
-  contextName
-}: CreateContextStateI) {
-  // const AuthState: React.FC<T> = ({ children }) => {
-  //   const init = newContextInfoContainer[0].initialState
-  //   const [state, dispatch] = useStonedReducer<AuthStateI, AuthActionType>(
-  //     (state: AuthStateI, action: any) => {
-  //       switch (action.type) {
-  //         case 'LOGOUT':
-  //           return {
-  //             ...state,
-  //             isAuthenticated: false
-  //           }
-  //         case 'LOGIN':
-  //           return {
-  //             ...state,
-  //             isAuthenticated: true
-  //           }
-  //         default:
-  //           return state
-  //       }
-  //     },
-  //     init
-  //   )
-  //   console.log({ state })
-  //   const logout = () => {
-  //     dispatcherOnSteroids(dispatch, { type: 'LOGOUT' })
-  //   }
-  //   const login = () => {
-  //     dispatcherOnSteroids(dispatch, { type: 'LOGIN' })
-  //   }
-  //   const AuthContext = newContextInfoContainer[0].context
-  //   return (
-  //     <AuthContext.Provider
-  //       value={{
-  //         isAuthenticated: state.isAuthenticated,
-  //         login,
-  //         logout
-  //       }}
-  //     >
-  //       {children}
-  //     </AuthContext.Provider>
-  //   )
-  // }
+  contextStates.push(NewContextState)
 }

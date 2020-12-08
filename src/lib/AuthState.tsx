@@ -1,65 +1,45 @@
 import React, { useContext } from 'react'
 import { dispatcherOnSteroids } from './dispatcherOnSteroids'
-import { newContextInfoContainer } from './createNewContext'
-import { useStonedReducer } from './useStonedReducer'
 import { getHighContextObject } from './getHighContextObject'
+import { getDispatch } from './executeReducerShii'
 
-interface AuthStateProps {}
-
+export type AuthActionType = { type: 'LOGOUT' } | { type: 'LOGIN' }
 export interface AuthStateI {
   isAuthenticated: boolean
 }
 
-export type AuthActionType = { type: 'LOGOUT' } | { type: 'LOGIN' }
-
-export const AuthState: React.FC<AuthStateProps> = ({ children }) => {
-  const { initialState, context } = getHighContextObject('auth')
-  const [state, dispatch] = useStonedReducer<AuthStateI, AuthActionType>(
-    (state: AuthStateI, action: any) => {
-      switch (action.type) {
-        case 'LOGOUT':
-          return {
-            ...state,
-            isAuthenticated: false
-          }
-        case 'LOGIN':
-          return {
-            ...state,
-            isAuthenticated: true
-          }
-        default:
-          return state
+export const reducer: Stithi.ReducerFunction<AuthStateI, AuthActionType> = (
+  state,
+  action
+) => {
+  switch (action.type) {
+    case 'LOGIN':
+      return {
+        isAuthenticated: true
       }
-    },
-    initialState
-  )
+    case 'LOGOUT':
+      return {
+        isAuthenticated: false
+      }
+    default:
+      return state
+  }
+}
 
-  console.log({ state })
+export const getActions = (dispatch: React.Dispatch<AuthActionType>): any => {
+  const login = () => {
+    dispatcherOnSteroids(dispatch, { type: 'LOGIN' })
+  }
 
   const logout = () => {
     dispatcherOnSteroids(dispatch, { type: 'LOGOUT' })
   }
 
-  const login = () => {
-    dispatcherOnSteroids(dispatch, { type: 'LOGIN' })
-  }
-
-  const AuthContext = context
-
-  return (
-    <AuthContext.Provider
-      value={{
-        isAuthenticated: state.isAuthenticated,
-        login,
-        logout
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  )
+  return { login, logout }
 }
 
+
 export function useAuth<Y>() {
-  const auth = useContext<Y>(newContextInfoContainer[0].context)
+  const auth = useContext<Y>(getHighContextObject('auth').context)
   return { ...auth }
 }
