@@ -1,7 +1,7 @@
 import { AuthStateI } from './AuthState'
 import { createNewContext } from './createNewContext'
 
-interface AuthContextI extends AuthStateI {
+export interface AuthContextI extends AuthStateI {
   login: () => void
   logout: () => void
 }
