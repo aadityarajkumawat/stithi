@@ -8,8 +8,8 @@ export interface AuthContextParams {
 
 const AuthContext = createContext<AuthContextParams>({
   isAuthenticated: false,
-  login: () => console.warn('login context'),
-  logout: () => console.warn('logout context')
+  login: () => null,
+  logout: () => null
 })
 
 export default AuthContext

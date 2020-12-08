@@ -1,14 +1,9 @@
 import React, { useContext } from 'react'
 import AuthContext from './lib/AuthContext'
-// import { initializeContext } from './lib/appContext'
-// import AuthContext from './lib/AuthContext'
 import { AuthState } from './lib/AuthState'
-// import { newContextInfoContainer } from './lib/createNewContext'
-// import { AuthState } from './lib/AuthState'
-// import { newContextInfoContainer } from './lib/createNewContext'
+
 interface Props {}
 
-// initializeContext()
 const AuthComponent: React.FC<any> = () => {
   const auth = useContext(AuthContext)
   const { isAuthenticated, login, logout } = auth
