@@ -1,10 +1,13 @@
 import React from 'react'
 import { useReducer } from 'react'
-import { getActions } from './AuthState'
-import { dispatcherOnSteroids } from './dispatcherOnSteroids'
 import { getHighContextObject } from './getHighContextObject'
 
-export const contextStates: Array<any> = []
+interface ContextStateObjectType {
+  newContextState: React.FC<any>
+  contextStateName: string
+}
+
+export const contextStates: Array<ContextStateObjectType> = []
 
 /**
  * Creates a context and adds it to an array
@@ -17,7 +20,8 @@ export const contextStates: Array<any> = []
  */
 export function createContextState<P, S, A>(
   contextName: string,
-  reducer: Stithi.ReducerFunction<S, A>
+  reducer: Stithi.ReducerFunction<S, A>,
+  getActions: (dispatch: React.Dispatch<A>) => object
 ) {
   const NewContextState: React.FC<P> = ({ children }) => {
     const { initialState, context } = getHighContextObject<S>(contextName)
@@ -42,5 +46,8 @@ export function createContextState<P, S, A>(
     )
   }
 
-  contextStates.push(NewContextState)
+  contextStates.push({
+    newContextState: NewContextState,
+    contextStateName: contextName
+  })
 }

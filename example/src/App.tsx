@@ -1,13 +1,16 @@
 import React from 'react'
-import { Free } from 'stithi'
+import { getContextState } from 'stithi'
+import Auth from './components/Auth'
 
 const App = () => {
+  const AuthState = getContextState('auth')
   return (
-    <div>
+    <AuthState>
       <div>
-        <Free></Free>
+        <div>Navbar</div>
+        <Auth />
       </div>
-    </div>
+    </AuthState>
   )
 }
 
