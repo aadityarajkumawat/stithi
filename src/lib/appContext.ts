@@ -1,7 +1,6 @@
-import { AuthActionType, AuthStateI, getActions, reducer } from './AuthState'
+import { AuthActionType, AuthStateI, reducer } from './AuthState'
 import { createContextState } from './contextStates'
 import { createNewContext } from './createNewContext'
-import { store } from './store'
 
 export const initializeContext = () => {
   createNewContext<AuthStateI>({
@@ -13,11 +12,5 @@ export const initializeContext = () => {
 }
 
 export const createCC = () => {
-  createContextState<any, AuthStateI, AuthActionType, any>(
-    'auth',
-    reducer,
-    getActions(store.dispatch)
-  )
-
-  store.dispatch({ type: 'LOGIN' })
+  createContextState<any, AuthStateI, AuthActionType>('auth', reducer)
 }

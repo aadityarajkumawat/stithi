@@ -26,8 +26,7 @@ export const reducer: Stithi.ReducerFunction<AuthStateI, AuthActionType> = (
   }
 }
 
-export const getActions = (dispatch: React.Dispatch<AuthActionType>): any => {
-  if (dispatch) {
+export const getActions = (dispatch: any): any => {
     const login = () => {
       dispatcherOnSteroids(dispatch, { type: 'LOGIN' })
     }
@@ -37,7 +36,6 @@ export const getActions = (dispatch: React.Dispatch<AuthActionType>): any => {
     }
 
     return { login, logout }
-  }
 }
 
 export function useAuth<Y>() {

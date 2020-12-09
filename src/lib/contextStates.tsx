@@ -1,7 +1,8 @@
 import React from 'react'
 import { useReducer } from 'react'
+import { getActions } from './AuthState'
+import { dispatcherOnSteroids } from './dispatcherOnSteroids'
 import { getHighContextObject } from './getHighContextObject'
-import { store } from './store'
 
 export const contextStates: Array<any> = []
 
@@ -14,10 +15,9 @@ export const contextStates: Array<any> = []
  * @param actions Object containing actions
  * @generics P: React Props, A: Action Types, S: State
  */
-export function createContextState<P, S, A, K>(
+export function createContextState<P, S, A>(
   contextName: string,
-  reducer: Stithi.ReducerFunction<S, A>,
-  actions: K | null
+  reducer: Stithi.ReducerFunction<S, A>
 ) {
   const NewContextState: React.FC<P> = ({ children }) => {
     const { initialState, context } = getHighContextObject<S>(contextName)
@@ -27,25 +27,15 @@ export function createContextState<P, S, A, K>(
       (initialState) => initialState
     )
 
-    if (!store.isReady) {
-      store.isReady = true
-      store.dispatch = (param: any) => dispatch(param)
-      Object.freeze(store)
-    }
+    const actions = getActions(dispatch)
 
-    // getDispatch(dispatch)
-    // console.log('from inside', thisAryy)
     const NewContext = context
     return (
       <NewContext.Provider
-        value={
-          actions
-            ? {
-                ...state,
-                ...actions
-              }
-            : { ...state }
-        }
+        value={{
+          ...state,
+          ...actions
+        }}
       >
         {children}
       </NewContext.Provider>

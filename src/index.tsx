@@ -6,13 +6,12 @@ import { contextStates } from './lib/contextStates'
 interface Props {}
 
 initializeContext()
-createCC()
+createCC();
 const AuthState = contextStates[0]
 
 const AuthComponent: React.FC<any> = () => {
   const { isAuthenticated, login, logout } = useAuth<any>()
   console.log(useAuth<any>())
-  // auth.login()
 
   return (
     <div>
