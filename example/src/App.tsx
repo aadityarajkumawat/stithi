@@ -1,15 +1,20 @@
 import React from 'react'
 import { getContextState } from 'stithi'
 import Auth from './components/Auth'
+import Tweet from './components/Tweet'
 
 const App = () => {
   const AuthState = getContextState('auth')
+  const TweetState = getContextState('tweet')
   return (
     <AuthState>
-      <div>
-        <div>Navbar</div>
-        <Auth />
-      </div>
+      <TweetState>
+        <div>
+          <div>Navbar</div>
+          <Auth />
+          <Tweet />
+        </div>
+      </TweetState>
     </AuthState>
   )
 }
