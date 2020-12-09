@@ -1,35 +1,23 @@
 import { AuthActionType, AuthStateI, getActions, reducer } from './AuthState'
 import { createContextState } from './contextStates'
 import { createNewContext } from './createNewContext'
-import { getDispatch } from './executeReducerShii'
-import { getHighContextObject } from './getHighContextObject'
-
-export interface AuthContextI extends AuthStateI {
-  login: () => void
-  logout: () => void
-}
+import { store } from './store'
 
 export const initializeContext = () => {
-  createNewContext<AuthStateI, AuthContextI>({
+  createNewContext<AuthStateI>({
     contextName: 'auth',
     initialState: {
       isAuthenticated: false
-    },
-    contextState: {
-      isAuthenticated: false,
-      login: () => null,
-      logout: () => null
     }
   })
+}
 
-  const dispatch = getDispatch<AuthStateI, AuthActionType>(
+export const createCC = () => {
+  createContextState<any, AuthStateI, AuthActionType, any>(
+    'auth',
     reducer,
-    getHighContextObject('auth').initialState
+    getActions(store.dispatch)
   )
 
-  createContextState<AuthStateI, AuthActionType>({
-    contextName: 'auth',
-    reducer: reducer,
-    actions: getActions(dispatch)
-  })
+  store.dispatch({ type: 'LOGIN' })
 }

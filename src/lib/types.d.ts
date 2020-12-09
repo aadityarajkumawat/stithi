@@ -7,4 +7,10 @@ declare namespace Stithi {
     reducer: Stithi.ReducerFunction<T, K>,
     initialState: T
   ) => Stithi.UseStonedReducerI<T, K>
+
+  type CreateContextStateFn<T, P, K> = (
+    contextName: string,
+    reducer: T,
+    actions: K
+  ) => React.FC<P>
 }
