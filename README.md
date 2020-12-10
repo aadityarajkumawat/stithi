@@ -1,4 +1,4 @@
-# stithi
+# Stithi
 
 > A react library to manage state
 
@@ -7,24 +7,63 @@
 ## Install
 
 ```bash
-npm install --save stithi
+npm install stithi
+or
+yarn add stithi
 ```
 
 ## Usage
 
+#Setup
+
+```
+**Project Structure**
+
+- /src
+	- /actions
+		- authAction.ts
+	- /reducers
+		- authReducer.ts
+	- callContext.ts
+	- actionTypes.ts
+	- stateTypes.ts
+
+```
+
+> In src/components/Auth.tsx
+
 ```tsx
-import React, { Component } from 'react'
+import React, { Fragment } from 'react'
+import { useHighContext } from 'stithi'
 
-import MyComponent from 'stithi'
-import 'stithi/dist/index.css'
+interface AuthProps {}
 
-class Example extends Component {
-  render() {
-    return <MyComponent />
-  }
+interface AuthContextProps {
+  isAuthenticated: boolean
+  login: () => void
+  logout: () => void
 }
 
-function() {
+const Auth: React.FC<AuthProps> = ({}) => {
+  const auth = useHighContext<AuthContextProps>(contextNames.auth)
+  return (
+    <Fragment>
+      <div>
+        {auth.isAuthenticated ? 'user: Authenticated' : 'user: Unauthenticated'}
+      </div>
+      <button
+        onClick={() => {
+          if (auth.isAuthenticated) {
+            auth.logout()
+          } else {
+            auth.login()
+          }
+        }}
+      >
+        login/logout
+      </button>
+    </Fragment>
+  )
 }
 ```
 
