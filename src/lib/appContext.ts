@@ -30,10 +30,10 @@ export function initializeContext<T>(contextName: string, initialState: T) {
  * contains action functions dispatching actions and finally returning
  * an object of all the actions being declared
  */
-export function createContextProvider<S, A>(
+export function createContextProvider<P, S, A>(
   contextName: string,
   reducer: Stithi.ReducerFunction<S, A>,
   getActions: (dispatch: React.Dispatch<A>) => object
 ) {
-  createContextState<S, A>(contextName, reducer, getActions)
+  createContextState<P, S, A>(contextName, reducer, getActions)
 }
