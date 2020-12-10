@@ -18,12 +18,12 @@ export const contextStates: Array<ContextStateObjectType> = []
  * @param actions Object containing actions
  * @generics P: React Props, A: Action Types, S: State
  */
-export function createContextState<P, S, A>(
+export function createContextState<S, A>(
   contextName: string,
   reducer: Stithi.ReducerFunction<S, A>,
   getActions: (dispatch: React.Dispatch<A>) => object
 ) {
-  const NewContextState: React.FC<P> = ({ children }) => {
+  const NewContextState: React.FC<{}> = ({ children }) => {
     const { initialState, context } = getHighContextObject<S>(contextName)
     const [state, dispatch] = useReducer<typeof reducer, typeof initialState>(
       reducer,
