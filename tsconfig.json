@@ -17,6 +17,6 @@
     "noUnusedParameters": false,
     "allowSyntheticDefaultImports": true
   },
-  "include": ["src"],
+  "include": ["src", "dist/types.d.ts"],
   "exclude": ["node_modules", "dist", "example"]
 }

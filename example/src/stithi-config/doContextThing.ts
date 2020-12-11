@@ -1,7 +1,8 @@
 import {
   createContextProvider,
   dispatcherOnSteroids,
-  initializeContext
+  initializeContext,
+  ReducerFn
 } from 'stithi'
 
 export interface AuthStateI {
@@ -39,31 +40,36 @@ const getTweetAction = (dispatch: React.Dispatch<TweetActionTypes>) => {
   return { showTweet, hideTweet }
 }
 
+const authReducer: ReducerFn<AuthStateI, AuthActionTypes> = (
+  state,
+  action
+): AuthStateI => {
+  switch (action.type) {
+    case 'LOGIN':
+      return {
+        ...state,
+        isAuth: true
+      }
+    case 'LOGOUT':
+      return {
+        ...state,
+        isAuth: false
+      }
+    default:
+      return state
+  }
+}
+
 export const doAllContextWork = () => {
   initializeContext<AuthStateI>('auth', { isAuth: false })
-  createContextProvider<any, AuthStateI, AuthActionTypes>(
+  createContextProvider<AuthStateI, AuthActionTypes>(
     'auth',
-    (state: any, action: any) => {
-      switch (action.type) {
-        case 'LOGIN':
-          return {
-            ...state,
-            isAuth: true
-          }
-        case 'LOGOUT':
-          return {
-            ...state,
-            isAuth: false
-          }
-        default:
-          return state
-      }
-    },
+    authReducer,
     getAuthAction
   )
 
   initializeContext<TweetStateI>('tweet', { isShown: true })
-  createContextProvider<any, any, any>(
+  createContextProvider<any, any>(
     'tweet',
     (state: any, action: any) => {
       switch (action.type) {
