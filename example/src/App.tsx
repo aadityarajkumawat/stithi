@@ -10,7 +10,7 @@ const App = () => {
     <AuthState>
       <TweetState>
         <div>
-          <div>Navbar</div>
+          <div>Navbarsd</div>
           <Auth />
           <Tweet />
         </div>
