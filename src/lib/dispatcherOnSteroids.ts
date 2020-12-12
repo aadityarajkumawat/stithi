@@ -1,6 +1,6 @@
-export function dispatcherOnSteroids(
-  dispatchFunction: React.Dispatch<any>,
-  dispatchParams: any
+export function dispatcherOnSteroids<A>(
+  dispatchFunction: React.Dispatch<A>,
+  dispatchParams: A
 ) {
   dispatchFunction(dispatchParams)
 }

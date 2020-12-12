@@ -16,7 +16,9 @@ export const contextStates: Array<ContextStateObjectType> = []
  * @param contextName string
  * @param reducer (state, action) - returns state
  * @param actions Object containing actions
- * @generics P: React Props, A: Action Types, S: State
+ *
+ * @template S type of state
+ * @template A action types
  */
 export function createContextState<S, A>(
   contextName: string,
